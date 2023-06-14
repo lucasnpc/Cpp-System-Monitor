@@ -1,4 +1,5 @@
 #include "linux_parser.h"
+#include "generic.h"
 
 #include <dirent.h>
 #include <unistd.h>
@@ -69,32 +70,12 @@ vector<int> LinuxParser::Pids() {
 }
 
 float LinuxParser::MemoryUtilization() {
-  float memTotal, memFree, memAvailable, buffers, cached;
-  string line;
-  std::ifstream stream(kProcDirectory + kMeminfoFilename);
-  if (stream.is_open()) {
-    std::getline(stream, line);
-    std::istringstream linestream(line);
-    linestream.ignore(256, ':');
-    linestream >> memTotal;
-    std::getline(stream, line);
-    linestream.str(line);
-    linestream.ignore(256, ':');
-    linestream >> memFree;
-    std::getline(stream, line);
-    linestream.str(line);
-    linestream.ignore(256, ':');
-    linestream >> memAvailable;
-    std::getline(stream, line);
-    linestream.str(line);
-    linestream.ignore(256, ':');
-    linestream >> buffers;
-    std::getline(stream, line);
-    linestream.str(line);
-    linestream.ignore(256, ':');
-    linestream >> cached;
-  }
-  return (memTotal - memFree - buffers - cached) / memTotal;
+  string path = kProcDirectory + kMeminfoFilename;
+  float total = Generics::findValueByKey<float>(memTotal, path);
+  float free = Generics::findValueByKey<float>(memFree, path);
+  float buffer = Generics::findValueByKey<float>(buffers, path);
+  float cache = Generics::findValueByKey<float>(cached, path);
+  return (total - free - buffer - cache) / total;
 }
 
 long LinuxParser::UpTime() {
