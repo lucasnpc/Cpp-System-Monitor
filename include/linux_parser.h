@@ -52,12 +52,20 @@ namespace LinuxParser {
   std::string Uid(int pid);
   std::string User(int pid);
   long int UpTime(int pid);
+  const std::string processesFilter = "processes";
 
-  //Values
+  //System
+  const std::string prettyName = "PRETTY_NAME";
+
+  //Memory Utilization
   const std::string memTotal = "MemTotal:";
   const std::string memFree = "MemFree:";
   const std::string buffers = "Buffers:";
   const std::string cached = "Cached:";
+
+  //Ram
+  // Using VMRSS instead of VmSize because VmSS corresponds to exactly the phisical memory being used
+  const std::string vmRSS = "VmRSS:";
 };  // namespace LinuxParser
 
 #endif

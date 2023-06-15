@@ -7,7 +7,7 @@
 
 using std::string;
 
-namespace Generics
+namespace Util
 {
     template <typename T>
     T findValueByKey(std::string const keyFilter, std::string const& path) {

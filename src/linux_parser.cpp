@@ -26,7 +26,7 @@ string LinuxParser::OperatingSystem() {
       std::replace(line.begin(), line.end(), '"', ' ');
       std::istringstream linestream(line);
       while (linestream >> key >> value) {
-        if (key == "PRETTY_NAME") {
+        if (key == prettyName) {
           std::replace(value.begin(), value.end(), '_', ' ');
           return value;
         }
@@ -71,10 +71,10 @@ vector<int> LinuxParser::Pids() {
 
 float LinuxParser::MemoryUtilization() {
   string path = kProcDirectory + kMeminfoFilename;
-  float total = Generics::findValueByKey<float>(memTotal, path);
-  float free = Generics::findValueByKey<float>(memFree, path);
-  float buffer = Generics::findValueByKey<float>(buffers, path);
-  float cache = Generics::findValueByKey<float>(cached, path);
+  float total = Util::findValueByKey<float>(memTotal, path);
+  float free = Util::findValueByKey<float>(memFree, path);
+  float buffer = Util::findValueByKey<float>(buffers, path);
+  float cache = Util::findValueByKey<float>(cached, path);
   return (total - free - buffer - cache) / total;
 }
 
@@ -159,7 +159,7 @@ vector<string> LinuxParser::CpuUtilization() {
   if (filestream.is_open()) {
     while (std::getline(filestream, line)) {
       if (line.compare(0, 3, "cpu") == 0) {
-        cpu_utilization.push_back(line);
+        cpu_utilization.emplace_back(line);
       }
     }
   }
@@ -168,22 +168,8 @@ vector<string> LinuxParser::CpuUtilization() {
 
 int LinuxParser::TotalProcesses() {
   int numProcess = 0;
-  std::ifstream stream(kProcDirectory + kStatFilename);
-  if (stream.is_open())
-  {
-    string line;
-    while (std::getline(stream, line))
-    {
-      std::istringstream linestream(line);
-      std::string field;
-      int value;
-      linestream >> field >> value;
-      if (field == "processes") {
-        numProcess = value;
-        break;
-      }
-    }
-  }
+  string path = kProcDirectory + kStatFilename;
+  numProcess = Util::findValueByKey<int>(processesFilter, path);
   return numProcess;
 }
 
@@ -215,6 +201,8 @@ string LinuxParser::Command(int pid) {
   {
     std::getline(stream, line);
   }
+  if (line.length() > 40)
+    line = line.substr(0, 40) + "...";
   return line;
 }
 
@@ -226,7 +214,7 @@ string LinuxParser::Ram(int pid) {
     while (getline(stream, line)) {
       std::istringstream linestream(line);
       linestream >> key >> value;
-      if (key == "VmSize:") {
+      if (key == vmRSS) {
         ram = stol(value) / 1024;
         break;
       }
