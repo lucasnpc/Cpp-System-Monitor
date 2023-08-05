@@ -53,6 +53,7 @@ namespace LinuxParser {
   std::string User(int pid);
   long int UpTime(int pid);
   const std::string processesFilter = "processes";
+  const std::string UniqueId = "Uid:";
 
   //System
   const std::string prettyName = "PRETTY_NAME";
