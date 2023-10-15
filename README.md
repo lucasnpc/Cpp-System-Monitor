@@ -1,6 +1,6 @@
 # About the System Monitor Project
 
-This project is part of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). To succeed in this project you must satisfy the following requirements:
+This project is part of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). To succeed your project must satisfy the following conditions:
 * Basic Requirements
   * The program must build without generating compiler warnings.
   * The program must build an executable system monitor.
