@@ -1,5 +1,7 @@
 # About the System Monitor Project
 
+<img src="monitor.gif"/>
+
 This project is part of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). To succeed your project must satisfy the following conditions:
 * Basic Requirements
   * The program must build without generating compiler warnings.
@@ -14,8 +16,6 @@ This project is part of the [Udacity C++ Nanodegree Program](https://www.udacity
 * Process Requirements
   * The system monitor should display a partial list of processes running on the system.
   * The system monitor should display the PID, user, CPU utilization, memory utilization, uptime, and command for each process.
-
-<img src="monitor.gif"/>
 
 ## ncurses
 [ncurses](https://www.gnu.org/software/ncurses/) is a library that facilitates text-based graphical output in the terminal. This project relies on ncurses for display output.
